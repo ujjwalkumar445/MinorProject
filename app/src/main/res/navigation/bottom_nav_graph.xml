@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/home2">
+
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.minorproject.home.Home"
+        android:label="fragment_home2"
+        tools:layout="@layout/fragment_home2">
+        <action
+            android:id="@+id/action_home2_to_timeline2"
+            app:destination="@id/timeline2" />
+        <action
+            android:id="@+id/action_home2_to_userProfile"
+            app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_home2_to_adddetail"
+            app:destination="@id/adddetail" />
+        <action
+            android:id="@+id/action_home2_to_adddetail2"
+            app:destination="@id/adddetail" />
+        <action
+            android:id="@+id/action_home2_to_subCatImage"
+            app:destination="@id/subCatImage" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfile"
+        android:name="com.example.minorproject.profile.UserProfile"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile">
+        <action
+            android:id="@+id/action_userProfile_to_home2"
+            app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_userProfile_to_timeline2"
+            app:destination="@id/timeline2" />
+    </fragment>
+    <fragment
+        android:id="@+id/timeline2"
+        android:name="com.example.minorproject.timeline.Timeline"
+        android:label="fragment_timeline"
+        tools:layout="@layout/fragment_timeline">
+        <action
+            android:id="@+id/action_timeline2_to_userProfile"
+            app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_timeline2_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/subCatImage"
+        android:name="com.example.minorproject.home.ImageCat.SubCatImage"
+        android:label="fragment_sub_cat_image"
+        tools:layout="@layout/fragment_sub_cat_image">
+        <action
+            android:id="@+id/action_subCatImage_to_addImage"
+            app:destination="@id/addImage" />
+        <action
+            android:id="@+id/action_subCatImage_to_timeline2"
+            app:destination="@id/timeline2" />
+        <action
+            android:id="@+id/action_subCatImage_to_userProfile"
+            app:destination="@id/userProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/addImage"
+        android:name="com.example.minorproject.home.ImageCat.AddImage"
+        android:label="fragment_add_image"
+        tools:layout="@layout/fragment_add_image">
+        <action
+            android:id="@+id/action_addImage_to_subCatImage"
+            app:destination="@id/subCatImage" />
+        <action
+            android:id="@+id/action_addImage_to_subCatImage2"
+            app:popUpTo="@id/subCatImage" />
+    </fragment>
+    <fragment
+        android:id="@+id/adddetail"
+        android:name="com.example.minorproject.home.Adddetail"
+        android:label="fragment_adddetail"
+        tools:layout="@layout/fragment_adddetail">
+        <action
+            android:id="@+id/action_adddetail_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+</navigation>

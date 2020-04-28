@@ -1,10 +1,11 @@
-package com.example.minorproject
+package com.example.minorproject.authentication
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.minorproject.R
 
 /**
  * A simple [Fragment] subclass.

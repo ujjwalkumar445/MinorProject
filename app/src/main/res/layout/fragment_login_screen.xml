@@ -15,8 +15,8 @@
         android:layout_margin="@dimen/dimen_16x"
         android:layout_weight="1"
         android:paddingLeft="@dimen/dimen_64x"
-        android:paddingRight="@dimen/dimen_64x"
         android:paddingTop="@dimen/dimen_16x"
+        android:paddingRight="@dimen/dimen_64x"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/logo" />
 
@@ -28,14 +28,14 @@
         android:gravity="center"
         android:hint="@string/email"
         android:paddingLeft="@dimen/dimen_32x"
-        android:paddingRight="@dimen/dimen_32x"
-        android:paddingTop="@dimen/dimen_16x">
+        android:paddingTop="@dimen/dimen_16x"
+        android:paddingRight="@dimen/dimen_32x">
 
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/emailEditTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailEditTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -45,8 +45,8 @@
         android:gravity="center"
         android:hint="@string/password"
         android:paddingLeft="@dimen/dimen_32x"
-        android:paddingRight="@dimen/dimen_32x"
         android:paddingTop="@dimen/dimen_16x"
+        android:paddingRight="@dimen/dimen_32x"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/light_grey">
 
@@ -63,8 +63,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingLeft="@dimen/dimen_32x"
-        android:paddingRight="@dimen/dimen_32x"
         android:paddingTop="@dimen/dimen_32x"
+        android:paddingRight="@dimen/dimen_32x"
         android:text="@string/forgot_password"
         android:textColor="@color/dark_grey"
         android:textStyle="bold" />
@@ -75,12 +75,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_32x"
-        android:layout_marginRight="@dimen/dimen_32x"
         android:layout_marginTop="@dimen/dimen_16x"
+        android:layout_marginRight="@dimen/dimen_32x"
         android:gravity="center"
-        android:theme="@style/MyCustomButton"
         android:text="@string/log_in"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:theme="@style/MyCustomButton" />
 
     <View
         android:layout_width="wrap_content"
@@ -95,7 +95,6 @@
         android:background="@color/white"
         android:text="@string/not_a_member_signup"
         android:textColor="@color/light_grey" />
-
 
 
 </LinearLayout>
