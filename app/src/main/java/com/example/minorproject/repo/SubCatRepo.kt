@@ -1,7 +1,7 @@
 package com.example.minorproject.repo
 
 import androidx.lifecycle.MutableLiveData
-import com.example.minorproject.home.ImageCat.CatImageModel
+import com.example.minorproject.home.CatImageModel
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -13,11 +13,11 @@ class subCatRepo {
     var mutableSubdata: MutableLiveData<ArrayList<CatImageModel>> = MutableLiveData()
 
 
-    fun Getdata(args: String): MutableLiveData<ArrayList<CatImageModel>> {
+    fun Getdata(cat_id: String): MutableLiveData<ArrayList<CatImageModel>> {
         var list: ArrayList<CatImageModel> = ArrayList()
 
 
-        db.collection("CategoryImage").document(args).collection("Image")
+        db.collection("CategoryImage").document(cat_id).collection("Image")
 
             .addSnapshotListener(EventListener<QuerySnapshot>
             { value, e ->
@@ -26,7 +26,13 @@ class subCatRepo {
                         var id: String = document.id
                         var imageUrl = document.data.get("ImageUrl").toString()
 
-                        list.add(CatImageModel(imageUrl, id, args))
+                        list.add(
+                            CatImageModel(
+                                imageUrl,
+                                id,
+                                cat_id
+                            )
+                        )
                     }
                 }
                 mutableSubdata.value = list

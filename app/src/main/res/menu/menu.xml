@@ -6,19 +6,18 @@
     <item
         android:id="@+id/timeline"
         android:enabled="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/timeline"
         android:title="timeline"
-        app:cnb_backgroundColor="@color/colorPrimary"
+        app:cnb_backgroundColor="@color/colorAccent"
         app:cnb_iconColor="@color/white"
-        app:cnb_iconTintMode="src_in"
         app:cnb_textColor="@color/white" />
 
     <item
         android:id="@+id/home"
         android:enabled="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/home"
         android:title="home"
-        app:cnb_backgroundColor="@color/colorPrimary"
+        app:cnb_backgroundColor="@color/colorAccent"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/white" />
 
@@ -27,7 +26,7 @@
         android:enabled="true"
         android:icon="@drawable/logo"
         android:title="profile"
-        app:cnb_backgroundColor="@color/colorPrimary"
+        app:cnb_backgroundColor="@color/colorAccent"
         app:cnb_iconColor="@color/white"
         app:cnb_iconTintMode="src_in"
         app:cnb_textColor="@color/white" />

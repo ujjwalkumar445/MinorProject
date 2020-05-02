@@ -3,7 +3,7 @@ package com.example.minorproject.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.minorproject.home.ImageCat.CatImageModel
+import com.example.minorproject.home.CatImageModel
 import com.example.minorproject.repo.subCatRepo
 
 class SubCatViewModel : ViewModel() {

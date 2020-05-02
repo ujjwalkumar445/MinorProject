@@ -10,13 +10,15 @@ import com.google.firebase.firestore.QuerySnapshot
 class HomeRepo {
 
     var db = FirebaseFirestore.getInstance()
-    var mutabledata: MutableLiveData<ArrayList<CatModel>> = MutableLiveData()
+//    var mutabledata: MutableLiveData<ArrayList<CatModel>> = MutableLiveData()
+   lateinit var arrayList : ArrayList<CatModel>
 
 
     fun GetFirebasedata(): MutableLiveData<ArrayList<CatModel>> {
 
+        var mutabledata: MutableLiveData<ArrayList<CatModel>> = MutableLiveData()
 
-        var arrayList: ArrayList<CatModel> = ArrayList()
+
 
 
         db.collection("Category")
@@ -24,15 +26,17 @@ class HomeRepo {
             .addSnapshotListener(EventListener<QuerySnapshot>
             { value, e ->
                 if (value != null) {
+                    arrayList = ArrayList()
                     for (document: QueryDocumentSnapshot in value) {
-                        var id: String = document.id
+                        var cat_id: String = document.id
 
-                        var imageTitle = document.data.get("ImageTitle").toString()
+                        var catName = document.data.get("ImageTitle").toString()
                         var imageUrl = document.data.get("ImageUrl").toString()
-                        arrayList.add(CatModel(imageTitle, imageUrl, id))
+                        arrayList.add(CatModel(catName, imageUrl, cat_id))
                     }
                 }
                 mutabledata.value = arrayList
+
             })
         return mutabledata
 

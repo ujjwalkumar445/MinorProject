@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_subCatImage_to_userProfile"
             app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_subCatImage_to_fullScreenImage2"
+            app:destination="@id/fullScreenImage2" />
     </fragment>
     <fragment
         android:id="@+id/addImage"
@@ -85,5 +88,19 @@
         <action
             android:id="@+id/action_adddetail_to_home2"
             app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenImage2"
+        android:name="com.example.minorproject.home.FullScreenImage"
+        android:label="FullScreenImage" >
+        <action
+            android:id="@+id/action_fullScreenImage2_to_subCatImage"
+            app:destination="@id/subCatImage" />
+        <action
+            android:id="@+id/action_fullScreenImage2_to_userProfile"
+            app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_fullScreenImage2_to_timeline2"
+            app:destination="@id/timeline2" />
     </fragment>
 </navigation>

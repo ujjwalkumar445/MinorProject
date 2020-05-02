@@ -57,11 +57,11 @@ class LoginScreen : Fragment(), View.OnClickListener {
             R.id.login_button -> {
                 if (TextUtils.isEmpty(emailEditTextView.text)) {
                     emailEditTextView.error = "Please Enter the Email first"
-                } else if (!validEmail(emailEditTextView.text.toString())) {
+                } else if (!checkEmail(emailEditTextView.text.toString())) {
                     emailEditTextView.error = "Invalid Email. Please try again"
                 } else if (TextUtils.isEmpty(passwordEditTextView.text)) {
                     passwordEditTextView.error = "please Enter the Password first"
-                } else if (!(validPassword(passwordEditTextView.text.toString())
+                } else if (!(checkPassword(passwordEditTextView.text.toString())
                             && passwordEditTextView.text!!.length >= 10)
                 ) {
                     passwordEditTextView.error = "Must have at least 10 Characters"
@@ -73,7 +73,7 @@ class LoginScreen : Fragment(), View.OnClickListener {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Log.d(TAG, "SignInWithEmail : Success")
-                                updateUi()
+                                newScreen()
                             } else {
                                 Log.w(TAG, "UserWithEmail:failure", task.exception)
                                 Toast.makeText(
@@ -88,18 +88,18 @@ class LoginScreen : Fragment(), View.OnClickListener {
 
     }
 
-    private fun validEmail(email: String): Boolean {
+    private fun checkEmail(email: String): Boolean {
         val Pattern: Pattern = Patterns.EMAIL_ADDRESS
         return Pattern.matcher(email).matches()
     }
 
-    private fun validPassword(password: String?): Boolean {
+    private fun checkPassword(password: String?): Boolean {
         val Pattern: Pattern =
-            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$")
+            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")
         return Pattern.matcher(password).matches()
     }
 
-    private fun updateUi() {
+    private fun newScreen() {
         val intent = Intent(this.context, HomePage::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)

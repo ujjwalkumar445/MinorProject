@@ -29,11 +29,9 @@ import kotlinx.android.synthetic.main.fragment_home2.*
 class Home : Fragment(), View.OnClickListener, OnItemClick {
 
     private lateinit var navController: NavController
-    private lateinit var database: FirebaseFirestore
-    private lateinit var Storage: FirebaseStorage
-    private lateinit var mStorageReference: StorageReference
-    lateinit var homeViewModel: HomeViewModel
     private lateinit var catlist: LiveData<ArrayList<CatModel>>
+    private lateinit var database: FirebaseFirestore
+    lateinit var homeViewModel: HomeViewModel
     var CategoryAdapter: CategoryAdapter? = null
 
 
@@ -50,7 +48,7 @@ class Home : Fragment(), View.OnClickListener, OnItemClick {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         view.findViewById<FloatingActionButton>(R.id.addCategory).setOnClickListener(this)
-        initUi()
+        attachAdapter()
 
 
         activity?.menu?.setOnItemSelectedListener {
@@ -69,17 +67,15 @@ class Home : Fragment(), View.OnClickListener, OnItemClick {
     }
 
 
-    private fun initUi() {
+    private fun attachAdapter() {
 
         database = FirebaseFirestore.getInstance()
-        Storage = FirebaseStorage.getInstance()
         CategoryAdapter = context?.let { CategoryAdapter(it, this) }
-        mStorageReference = Storage.reference.child("Category")
-        recycler.layoutManager = GridLayoutManager(this.context, 2)
+        recycler.layoutManager = GridLayoutManager(context, 2)
         recycler.setHasFixedSize(true)
 
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-
+//        recycler.adapter= null
 
         catlist = homeViewModel.Getdata()
 
@@ -88,7 +84,8 @@ class Home : Fragment(), View.OnClickListener, OnItemClick {
 
         homeViewModel.mRecyclerData.observe(viewLifecycleOwner, Observer<List<CatModel>> { list ->
             list?.let {
-                CategoryAdapter?.setData(it)
+//              catlist.value?.clear()
+               CategoryAdapter?.notifychange(it)
             }
 
         })
@@ -98,8 +95,8 @@ class Home : Fragment(), View.OnClickListener, OnItemClick {
 
     override fun OnClick(catModel: CatModel) {
         val bundle = Bundle()
-        bundle.putString(ARG_ID, catModel.id)
-        Log.e("click", "Id" + catModel.id)
+        bundle.putString(ARG_ID, catModel.cat_id)
+        Log.e("click", "Id" + catModel.cat_id)
 
         navController.navigate(R.id.action_home2_to_subCatImage, bundle)
     }

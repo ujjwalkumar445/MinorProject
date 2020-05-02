@@ -79,11 +79,11 @@ class SignUpScreen : Fragment(), View.OnClickListener {
                     name.error = "UserName should not be empty"
                 } else if (TextUtils.isEmpty(email.text)) {
                     email.error = "Email Address Should not be empty"
-                } else if (!validEmail(email.text.toString())) {
+                } else if (!checkEmail(email.text.toString())) {
                     email.error = "Invalid Email"
                 } else if (TextUtils.isEmpty(password.text)) {
                     password.error = "Password field Empty"
-                } else if (!(validPassword(password.text.toString())
+                } else if (!(checkPassword(password.text.toString())
                             && password.text!!.length >= 10)
                 ) {
                     password.error = "Must have at least 10 digit password"
@@ -93,20 +93,17 @@ class SignUpScreen : Fragment(), View.OnClickListener {
                     name1 = name.text.toString().trim()
                     mAuth.createUserWithEmailAndPassword(email1, password1)
                         .addOnCompleteListener { task ->
-                            if (task.isSuccessful) { // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success")
+                            if (task.isSuccessful) {
+                                Log.e(TAG, "createUserWithEmail:success")
                                 Toast.makeText(
                                     activity,
                                     "Authentication success.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                //addData()
                                 uploadfile()
-                                // verifyEmail()
-                                updateUI()
+                                loginScreen()
                             } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                                Log.e(TAG, "createUserWithEmail:failure", task.exception)
                                 Toast.makeText(
                                     activity, "Authentication failed.",
                                     Toast.LENGTH_SHORT
@@ -127,43 +124,26 @@ class SignUpScreen : Fragment(), View.OnClickListener {
 
     //to give the valid email pattern for eg : name@domain
 
-    private fun validEmail(email: String): Boolean {
+    private fun checkEmail(email: String): Boolean {
         val pattern: Pattern = Patterns.EMAIL_ADDRESS
         return pattern.matcher(email).matches()
     }
 
     //to give the restriction for the password with the help of regex
 
-    private fun validPassword(password: String?): Boolean {
-        val pattern: Pattern
-        val matcher: Matcher
-        val PASSWORD_PATTERN =
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
-        pattern = Pattern.compile(PASSWORD_PATTERN)
-        matcher = pattern.matcher(password)
-        return matcher.matches()
+    private fun checkPassword(password: String?): Boolean {
+        val Pattern: Pattern =
+            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")
+        return Pattern.matcher(password).matches()
     }
 
-    private fun updateUI() {
+    private fun loginScreen() {
         val intent = Intent(this.context, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
     }
 
-//    private fun verifyEmail(){
-//        val muser = mAuth.currentUser
-//        muser!!.sendEmailVerification()
-//            .addOnCompleteListener {task ->
-//                if(task.isSuccessful){
-//                    Toast.makeText(view?.context,"Verification email sent to" + muser.email,Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Log.e(TAG,"Failed to send verification email.",task.exception)
-//                    Toast.makeText(view?.context,"Failed to send verification email.",Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//    }
-
-    private fun addData() {
+    private fun userData() {
         var user = hashMapOf(
             "email" to email1, "name" to name1,
             "password" to password1, "image" to url
@@ -216,7 +196,7 @@ class SignUpScreen : Fragment(), View.OnClickListener {
             .addOnSuccessListener {
                 url = it.toString()
                 Log.i(" image url", url)
-                addData()
+                userData()
 
             }
     }

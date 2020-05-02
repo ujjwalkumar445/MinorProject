@@ -32,6 +32,7 @@ class CategoryAdapter(private var context: Context, private val onItemClick: OnI
 
 
         holder.binding.category = catlist?.get(position)
+        holder.binding.executePendingBindings()
 
 
         val imageTitle: CatModel? = catlist?.get(position)
@@ -40,7 +41,7 @@ class CategoryAdapter(private var context: Context, private val onItemClick: OnI
         holder.binding.cardView.setOnClickListener {
             catlist?.get(position)?.let { it1 -> onItemClick.OnClick(it1) }
         }
-        holder.binding.executePendingBindings()
+
 
     }
 
@@ -48,7 +49,7 @@ class CategoryAdapter(private var context: Context, private val onItemClick: OnI
         return catlist?.size ?: 0
     }
 
-    fun setData(catlist: List<CatModel>) {
+    fun notifychange(catlist: List<CatModel>) {
         this.catlist = catlist
         notifyDataSetChanged()
 

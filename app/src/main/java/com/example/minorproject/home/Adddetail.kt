@@ -36,7 +36,6 @@ class Adddetail : Fragment(), View.OnClickListener {
     var navController: NavController? = null
     lateinit var database: FirebaseFirestore
     lateinit var storage: FirebaseStorage
-    lateinit var user: FirebaseUser
     private var filepath: Uri? = null
     private var url: String? = null
     lateinit var mcollection: CollectionReference
@@ -87,15 +86,16 @@ class Adddetail : Fragment(), View.OnClickListener {
 
 
     private fun selectImage() {
-        val option = arrayOf("Camera", "Gallery", "Cancel")
+        val option = arrayOf("Gallery", "Cancel")
         val builder = MaterialAlertDialogBuilder(context)
         with(builder) {
             setItems(option) { dialog, which ->
-                if (option[which].equals("Camera")) {
-                    dialog.dismiss()
-                    val CameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(CameraIntent, PICK_CAMERA_REQUEST)
-                } else if (option[which].equals("Gallery")) {
+//                if (option[which].equals("Camera")) {
+//                    dialog.dismiss()
+//                    val CameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//                    startActivityForResult(CameraIntent, PICK_CAMERA_REQUEST)
+//                } else if (option[which].equals("Gallery")) {
+                if (option[which].equals("Gallery")) {
                     dialog.dismiss()
                     val intent = Intent()
                     intent.type = "image/*"
@@ -117,10 +117,10 @@ class Adddetail : Fragment(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            PICK_CAMERA_REQUEST -> if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-                filepath = data.getData()
-                image.setImageURI(data.data)
-            }
+//            PICK_CAMERA_REQUEST -> if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+//                filepath = data.getData()
+//                image.setImageURI(data.data)
+//            }
 
             PICK_IMAGE_REQUEST -> if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
                 filepath = data.getData()
@@ -143,11 +143,11 @@ class Adddetail : Fragment(), View.OnClickListener {
 
     private fun UploadImage() {
         if (filepath != null) {
-            val Ref = mStorageReference.child("CImages/" + UUID.randomUUID().toString())
-            Ref.putFile(filepath!!)
+            val pathRef = mStorageReference.child("CImages/" + UUID.randomUUID().toString())
+            pathRef.putFile(filepath!!)
                 .addOnSuccessListener {
                     Log.i("on success", "uploaded")
-                    dwnldUrl(Ref)
+                    dwnldUrl(pathRef)
 
                 }
                 .addOnFailureListener {
@@ -158,8 +158,8 @@ class Adddetail : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun dwnldUrl(Ref: StorageReference) {
-        Ref.downloadUrl
+    private fun dwnldUrl(pathRef: StorageReference) {
+        pathRef.downloadUrl
             .addOnSuccessListener {
                 url = it.toString()
                 UploadData()

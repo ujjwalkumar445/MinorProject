@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="40dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="SubCat"
+            type="com.example.minorproject.home.CatImageModel" />
+    </data>
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/Image_card_view"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:clickable="true"
-        android:elevation="3dp"
-        android:onClick="Imagefolder"
-        card_view:cardCornerRadius="0dp">
+        android:layout_marginTop="40dp">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/Image_card_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless">
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:elevation="3dp"
+            android:onClick="Imagefolder"
+            card_view:cardCornerRadius="0dp">
 
-            <ImageView
-                android:id="@+id/SingleImage"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop" />
+                android:background="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:id="@+id/SingleImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@{SubCat.imageUrl}"/>
 
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</layout>
