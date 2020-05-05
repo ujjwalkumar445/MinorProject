@@ -90,11 +90,6 @@ class Adddetail : Fragment(), View.OnClickListener {
         val builder = MaterialAlertDialogBuilder(context)
         with(builder) {
             setItems(option) { dialog, which ->
-//                if (option[which].equals("Camera")) {
-//                    dialog.dismiss()
-//                    val CameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//                    startActivityForResult(CameraIntent, PICK_CAMERA_REQUEST)
-//                } else if (option[which].equals("Gallery")) {
                 if (option[which].equals("Gallery")) {
                     dialog.dismiss()
                     val intent = Intent()
@@ -117,11 +112,6 @@ class Adddetail : Fragment(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-//            PICK_CAMERA_REQUEST -> if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-//                filepath = data.getData()
-//                image.setImageURI(data.data)
-//            }
-
             PICK_IMAGE_REQUEST -> if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
                 filepath = data.getData()
                 image.setImageURI(data.data)

@@ -48,17 +48,8 @@ class ImageAdapter(private var context : Context,private val onImageClick: OnIma
 
     }
 
-    inner class MyViewHolder(var binding : ImageListBinding) : RecyclerView.ViewHolder(binding.root) {
-//
-//        fun Image() {
-//
-//            SingleImage = itemView.findViewById(R.id.SingleImage)
-//
-//            val catImageModel = catImagelist?.get(adapterPosition)
-//
-//            Picasso.get().load(catImageModel?.imageUrl).resize(250, 250).centerCrop()
-//                .into(SingleImage)
-//        }
+     class MyViewHolder(var binding : ImageListBinding) : RecyclerView.ViewHolder(binding.root) {
+
 
     }
 

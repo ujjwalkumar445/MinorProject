@@ -56,7 +56,7 @@ class CategoryAdapter(private var context: Context, private val onItemClick: OnI
     }
 
 
-    inner class MyViewHolder(var binding: HomeItemBinding) : RecyclerView.ViewHolder(binding.root) {
+     class MyViewHolder(var binding: HomeItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
 
     }

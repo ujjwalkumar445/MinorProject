@@ -24,7 +24,7 @@
     <item
         android:id="@+id/profile"
         android:enabled="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/person"
         android:title="profile"
         app:cnb_backgroundColor="@color/colorAccent"
         app:cnb_iconColor="@color/white"
