@@ -79,6 +79,12 @@
         <action
             android:id="@+id/action_addImage_to_subCatImage2"
             app:popUpTo="@id/subCatImage" />
+        <action
+            android:id="@+id/action_addImage_to_timeline2"
+            app:destination="@id/timeline2" />
+        <action
+            android:id="@+id/action_addImage_to_userProfile"
+            app:destination="@id/userProfile" />
     </fragment>
     <fragment
         android:id="@+id/adddetail"
@@ -88,6 +94,12 @@
         <action
             android:id="@+id/action_adddetail_to_home2"
             app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_adddetail_to_timeline2"
+            app:destination="@id/timeline2" />
+        <action
+            android:id="@+id/action_adddetail_to_userProfile"
+            app:destination="@id/userProfile" />
     </fragment>
     <fragment
         android:id="@+id/fullScreenImage2"

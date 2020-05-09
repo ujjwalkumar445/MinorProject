@@ -26,7 +26,8 @@
             android:layout_margin="5dp"
             android:clickable="true"
             android:elevation="3dp"
-            app:cardCornerRadius="8dp">
+            app:cardCornerRadius="8dp"
+            android:focusable="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -45,9 +46,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/thumbnail"
                     android:text="@{Category.catName.toUpperCase()}"
-                    android:textColor="@color/dark_grey"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:textSize="20sp"
+                    android:maxLines="2"
+                    android:minLines="2"
                     android:textStyle="bold"/>
 
 

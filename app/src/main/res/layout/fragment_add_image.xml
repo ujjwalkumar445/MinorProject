@@ -6,18 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".home.ImageCat.AddImage">
 
-    <ImageView
-        android:id="@+id/addCatImage"
+    <androidx.cardview.widget.CardView
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="30dp" />
+        android:id="@+id/imageCard"
+        android:layout_marginStart="55dp"
+        app:cardCornerRadius="5dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+
+
+    <ImageView
+        android:id="@+id/addCatImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:padding="2dp"
+        android:src="@drawable/addimage"/>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/addImagebtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/addCatImage"
+        android:layout_below="@id/imageCard"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="30dp"
         android:background="@color/dark_grey"

@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_home_page.*
 import kotlinx.android.synthetic.main.fragment_adddetail.*
 import java.util.*
 
@@ -74,6 +75,13 @@ class Adddetail : Fragment(), View.OnClickListener {
         navController = Navigation.findNavController(view)
         view.findViewById<ImageView>(R.id.image).setOnClickListener(this)
         view.findViewById<Button>(R.id.savebtn).setOnClickListener(this)
+
+        activity?.menu?.setOnItemSelectedListener {
+            when (it) {
+                R.id.profile -> navController?.navigate(R.id.action_adddetail_to_userProfile)
+                R.id.timeline -> navController?.navigate(R.id.action_adddetail_to_timeline2)
+            }
+        }
 
         if (url != null) {
             Picasso.get().load(url).resize(250, 250).centerCrop().into(image)

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomePage">
+    tools:context=".HomePage"
+    android:background="@drawable/gradient5">
 
     <fragment
         android:id="@+id/home_nav_host_fragment"
@@ -20,14 +21,14 @@
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/menu"
-        android:background="@android:color/black"
+        android:background="@drawable/capsule"
         app:cnb_orientationMode="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cnb_badgeColor="@color/white"
+        app:cnb_badgeColor="@color/black"
         app:cnb_iconSize="25dp"
         app:cnb_menuResource="@menu/menu"
-        app:cnb_unselectedColor="@color/white"
+        app:cnb_unselectedColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -28,6 +28,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_add_image.*
+import kotlinx.android.synthetic.main.activity_home_page.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -82,6 +83,14 @@ class AddImage : Fragment(), View.OnClickListener {
         navController = Navigation.findNavController(view)
         view.findViewById<ImageView>(R.id.addCatImage).setOnClickListener(this)
         view.findViewById<Button>(R.id.addImagebtn).setOnClickListener(this)
+
+
+        activity?.menu?.setOnItemSelectedListener {
+            when (it) {
+                R.id.profile -> navController?.navigate(R.id.action_addImage_to_userProfile)
+                R.id.timeline -> navController?.navigate(R.id.action_addImage_to_timeline2)
+            }
+        }
 
         if (url != null) {
             Picasso.get().load(url).resize(250, 250).centerCrop().into(addCatImage)

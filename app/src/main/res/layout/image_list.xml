@@ -12,18 +12,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
+        android:layout_margin="10dp"
+        android:background="@color/white">
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/Image_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:clickable="true"
             android:elevation="3dp"
             android:onClick="Imagefolder"
-            card_view:cardCornerRadius="0dp">
+            card_view:cardCornerRadius="0dp"
+            android:focusable="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -33,7 +35,7 @@
                 <ImageView
                     android:id="@+id/SingleImage"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     android:src="@{SubCat.imageUrl}"/>
 

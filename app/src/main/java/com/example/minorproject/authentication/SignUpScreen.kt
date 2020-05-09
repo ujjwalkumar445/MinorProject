@@ -1,23 +1,21 @@
 package com.example.minorproject.authentication
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.example.minorproject.MainActivity
 import com.example.minorproject.R
+import com.example.minorproject.viewmodel.signUpViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,8 +23,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_sign_up_screen.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 /**
  * A simple [Fragment] subclass.
@@ -34,28 +30,12 @@ import java.util.regex.Pattern
 class SignUpScreen : Fragment(), View.OnClickListener {
 
     lateinit var navController: NavController
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
-    private lateinit var mcollection: CollectionReference
-
-    lateinit var email1: String
-    lateinit var password1: String
-    lateinit var name1: String
-    private lateinit var Storage: FirebaseStorage
-    private lateinit var mStorageReference: StorageReference
     private val PICK_IMAGE_REQUEST = 1234
     private var filePath: Uri? = null
-    private lateinit var url: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mAuth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-        mcollection = db.collection("User")
-        Storage = FirebaseStorage.getInstance()
-        mStorageReference = Storage.reference
-
+    private val mSignupViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(signUpViewModel::class.java)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,89 +52,27 @@ class SignUpScreen : Fragment(), View.OnClickListener {
         view.findViewById<CircleImageView>(R.id.profile_image).setOnClickListener(this)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setSignUpObservers()
+    }
+
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.registerButton -> {
-                if (TextUtils.isEmpty(name.text)) {
-                    name.error = "UserName should not be empty"
-                } else if (TextUtils.isEmpty(email.text)) {
-                    email.error = "Email Address Should not be empty"
-                } else if (!checkEmail(email.text.toString())) {
-                    email.error = "Invalid Email"
-                } else if (TextUtils.isEmpty(password.text)) {
-                    password.error = "Password field Empty"
-                } else if (!(checkPassword(password.text.toString())
-                            && password.text!!.length >= 10)
-                ) {
-                    password.error = "Must have at least 10 digit password"
-                } else {
-                    email1 = email.text.toString().trim()
-                    password1 = password.text.toString().trim()
-                    name1 = name.text.toString().trim()
-                    mAuth.createUserWithEmailAndPassword(email1, password1)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.e(TAG, "createUserWithEmail:success")
-                                Toast.makeText(
-                                    activity,
-                                    "Authentication success.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                uploadfile()
-                                loginScreen()
-                            } else {
-                                Log.e(TAG, "createUserWithEmail:failure", task.exception)
-                                Toast.makeText(
-                                    activity, "Authentication failed.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                        }
-
-                }
-
-
+            R.id.registerButton -> { view?.let { onSignUpClicked(it) }
             }
-            R.id.profile_image -> ShowFileChooser()
+            R.id.profile_image -> showFileChooser()
         }
 
 
     }
 
-    //to give the valid email pattern for eg : name@domain
+    private fun setSignUpObservers() {
 
-    private fun checkEmail(email: String): Boolean {
-        val pattern: Pattern = Patterns.EMAIL_ADDRESS
-        return pattern.matcher(email).matches()
-    }
+        mSignupViewModel.getSignUpErrMessage().observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
+        })
 
-    //to give the restriction for the password with the help of regex
-
-    private fun checkPassword(password: String?): Boolean {
-        val Pattern: Pattern =
-            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")
-        return Pattern.matcher(password).matches()
-    }
-
-    private fun loginScreen() {
-        val intent = Intent(this.context, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
-    }
-
-    private fun userData() {
-        var user = hashMapOf(
-            "email" to email1, "name" to name1,
-            "password" to password1, "image" to url
-        )
-        db.collection("User").document(mAuth.currentUser!!.uid).set(user as Map<String, Any>)
-            .addOnCompleteListener { documentReference ->
-                Log.i("data added", "DocumentSnapshot added with ID")
-            }
-            .addOnFailureListener { documentRefrence ->
-                Log.i("data not added", "Error adding document")
-            }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -166,39 +84,16 @@ class SignUpScreen : Fragment(), View.OnClickListener {
 
     }
 
-    private fun ShowFileChooser() {
+    private fun showFileChooser() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "SELECT PICTURE"), PICK_IMAGE_REQUEST)
     }
 
-    private fun uploadfile() {
+    private fun onSignUpClicked(view: View){
+        mSignupViewModel.onSignUpClicked(name.text.toString(),email.text.toString(),password.text.toString(),view,filePath)
 
-        if (filePath != null) {
-            val imageRef = mStorageReference.child("images/" + mAuth.currentUser!!.uid)
-            imageRef.putFile(filePath!!)
-                .addOnSuccessListener {
-                    Log.i("on success", "uploaded")
-                    downloadUrl(imageRef)
-                }
-                .addOnFailureListener {
-                    Log.i("on failure", "not uploaded")
-
-
-                }
-        }
-    }
-
-
-    private fun downloadUrl(imageRef: StorageReference) {
-        imageRef.getDownloadUrl()
-            .addOnSuccessListener {
-                url = it.toString()
-                Log.i(" image url", url)
-                userData()
-
-            }
     }
 
 }

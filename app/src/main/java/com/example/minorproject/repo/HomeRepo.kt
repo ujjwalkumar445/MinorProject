@@ -10,7 +10,6 @@ import com.google.firebase.firestore.QuerySnapshot
 class HomeRepo {
 
     var db = FirebaseFirestore.getInstance()
-//    var mutabledata: MutableLiveData<ArrayList<CatModel>> = MutableLiveData()
    lateinit var arrayList : ArrayList<CatModel>
 
 

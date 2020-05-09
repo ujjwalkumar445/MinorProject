@@ -12,10 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.minorproject.HomePage
 import com.example.minorproject.R
+import com.example.minorproject.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login_screen.*
 import java.util.regex.Pattern
@@ -27,6 +30,10 @@ class LoginScreen : Fragment(), View.OnClickListener {
 
     var navController: NavController? = null
     private lateinit var mAuth: FirebaseAuth
+
+    private val mLoginViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(LoginViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,61 +55,38 @@ class LoginScreen : Fragment(), View.OnClickListener {
         view.findViewById<Button>(R.id.not_a_member_signup_button).setOnClickListener(this)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setObservers()
+    }
+
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.not_a_member_signup_button -> navController!!.navigate(
                 R.id.action_loginScreen_to_signUpScreen
             )
 
-            R.id.login_button -> {
-                if (TextUtils.isEmpty(emailEditTextView.text)) {
-                    emailEditTextView.error = "Please Enter the Email first"
-                } else if (!checkEmail(emailEditTextView.text.toString())) {
-                    emailEditTextView.error = "Invalid Email. Please try again"
-                } else if (TextUtils.isEmpty(passwordEditTextView.text)) {
-                    passwordEditTextView.error = "please Enter the Password first"
-                } else if (!(checkPassword(passwordEditTextView.text.toString())
-                            && passwordEditTextView.text!!.length >= 10)
-                ) {
-                    passwordEditTextView.error = "Must have at least 10 Characters"
-                } else {
-                    mAuth.signInWithEmailAndPassword(
-                        emailEditTextView.text.toString(),
-                        passwordEditTextView.text.toString()
-                    )
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.d(TAG, "SignInWithEmail : Success")
-                                newScreen()
-                            } else {
-                                Log.w(TAG, "UserWithEmail:failure", task.exception)
-                                Toast.makeText(
-                                    activity, "Log In failed.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                }
-            }
+            R.id.login_button -> view?.let { onLoginClicked(it) }
+
         }
 
     }
 
-    private fun checkEmail(email: String): Boolean {
-        val Pattern: Pattern = Patterns.EMAIL_ADDRESS
-        return Pattern.matcher(email).matches()
+    private fun setObservers() {
+
+        mLoginViewModel.getErrMessage().observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        })
+
     }
 
-    private fun checkPassword(password: String?): Boolean {
-        val Pattern: Pattern =
-            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")
-        return Pattern.matcher(password).matches()
-    }
+    private fun onLoginClicked(view: View) {
+        mLoginViewModel.onLoginClicked(
+            emailEditTextView.text.toString(),
+            passwordEditTextView.text.toString(),
+            view
+        )
 
-    private fun newScreen() {
-        val intent = Intent(this.context, HomePage::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
     }
 
 }

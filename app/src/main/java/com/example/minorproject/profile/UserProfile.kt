@@ -4,19 +4,21 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.minorproject.MainActivity
 
 import com.example.minorproject.R
+import com.example.minorproject.repo.UserRepo
+import com.example.minorproject.viewmodel.UserViewModal
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -31,33 +33,18 @@ import kotlinx.android.synthetic.main.fragment_user_profile.*
 class UserProfile : Fragment() {
 
     private lateinit var navController: NavController
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var memail: TextView
-    private lateinit var mStorageReference: StorageReference
-    private lateinit var mname: TextView
-    private lateinit var mimage: CircleImageView
-    private lateinit var Storage: FirebaseStorage
-    lateinit var email1: String
-    lateinit var name1: String
+    private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var PICK_IMAGE_CODE = 908
     private var filePath: Uri? = null
-    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private lateinit var newimageurld:String
+    lateinit var mUserViewModal: UserViewModal
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Storage = FirebaseStorage.getInstance()
-        mStorageReference = Storage.reference
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        var view = inflater.inflate(R.layout.fragment_user_profile, container, false)
 
-        // Inflate the layout for this fragment
-       var view = inflater.inflate(R.layout.fragment_user_profile, container, false)
-        getregisterdetail(view)
         return view
     }
 
@@ -72,12 +59,19 @@ class UserProfile : Fragment() {
             }
         }
 
-        logout.setOnClickListener{
+        mUserViewModal = ViewModelProvider(activity!!).get(UserViewModal::class.java)
+        mUserViewModal.onUserInfo().observe(viewLifecycleOwner, Observer {
+            emailText.setText(it.email)
+            usernameText.setText(it.name)
+            Picasso.get().load(it.image).resize(250, 250).centerCrop().into(profile_image1)
+        })
+
+        logout.setOnClickListener {
             val currentUser = mAuth.currentUser
-            if(currentUser != null){
+            if (currentUser != null) {
                 val intent = Intent(view.context, MainActivity::class.java)
                 val bundle = Bundle()
-                bundle.putString("key","LogOut")
+                bundle.putString("key", "LogOut")
                 intent.putExtras(bundle)
                 mAuth.signOut()
                 startActivity(intent)
@@ -87,30 +81,6 @@ class UserProfile : Fragment() {
         profile_image1.setOnClickListener {
             SelectImage()
         }
-    }
-
-    private fun getregisterdetail(view: View){
-
-        mAuth = FirebaseAuth.getInstance()
-
-        val documentReference: DocumentReference =
-            db.collection("User").document(mAuth.currentUser!!.uid)
-        documentReference.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-
-            val email: String? = documentSnapshot?.getString("email")
-            val name: String? = documentSnapshot?.getString("name")
-            val imageurl: String? = documentSnapshot?.getString("image")
-
-            memail = view?.findViewById<View>(R.id.emailText) as TextView
-            memail.setText(email).toString()
-            mname = view?.findViewById<View>(R.id.usernameText) as TextView
-            mname.setText(name).toString()
-
-            mimage = view?.findViewById<View>(R.id.profile_image1) as CircleImageView
-            Picasso.get().load(imageurl).resize(250, 250).centerCrop().into(mimage)
-
-        }
-
     }
 
     private fun SelectImage() {
@@ -127,69 +97,16 @@ class UserProfile : Fragment() {
             filePath = data.getData();
             profile_image1.setImageURI(data.data)
         }
-        uploadfile()
+        view?.let { uploadImage(it) }
     }
 
-    private fun uploadfile() {
-
-        if (filePath != null) {
-            val imageRef = mStorageReference.child("images/" + mAuth.currentUser!!.uid)
-            imageRef.putFile(filePath!!)
-                .addOnSuccessListener {
-                    Log.e("Success", "Save to Storage")
-                    downloadUrl(imageRef)
-                }
-                .addOnFailureListener {
-                    Log.e("Failure", "Not Save to Storage")
-
-
-                }
-        }
-    }
-
-    private fun downloadUrl(imageRef: StorageReference) {
-        imageRef.getDownloadUrl()
-            .addOnSuccessListener {
-                newimageurld = it.toString()
-                Log.e(" image url", newimageurld)
-                addData()
-
-            }
-    }
-
-    private fun addData() {
-        email1 = emailText.text.toString().trim()
-        name1 = usernameText.text.toString().trim()
-        val user = hashMapOf(
-            "email" to email1, "name" to name1,"image" to newimageurld
+    private fun uploadImage(view: View) {
+        mUserViewModal.onImageChanged(
+            emailText.text.toString(),
+            usernameText.text.toString(),
+            view,
+            filePath
         )
-        db.collection("User").document(mAuth.currentUser!!.uid).set(user as Map<String, Any>)
-            .addOnCompleteListener { documentReference ->
-                Log.e("Data Added", "Added to collection with the id")
-                getchangeImage()
-            }
-            .addOnFailureListener { documentRefrence ->
-                Log.e("Failure", "Data not added to collection")
-            }
-    }
-
-    private fun getchangeImage(){
-
-        mAuth = FirebaseAuth.getInstance()
-
-        val documentReference: DocumentReference =
-            db.collection("User").document(mAuth.currentUser!!.uid)
-        documentReference.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-
-            memail.text.toString()
-            mname.text.toString()
-
-            val imageurl: String? = documentSnapshot?.getString("image")
-
-            mimage = view?.findViewById<View>(R.id.profile_image1) as CircleImageView
-            Picasso.get().load(imageurl).resize(250, 250).centerCrop().into(mimage)
-
-        }
 
     }
 
