@@ -50,6 +50,7 @@ class Timeline : Fragment() {
             }
         }
     }
+
     private fun timelineUi() {
 
         database = FirebaseFirestore.getInstance()
@@ -67,12 +68,14 @@ class Timeline : Fragment() {
         timelineRecycler.adapter = mTimelineAdapter
 
 
-        mTimelineViewModel.mTimelineRecyclerData.observe(viewLifecycleOwner, Observer<List<TimelineModal>> { list ->
-            list?.let {
-                mTimelineAdapter?.setData(it)
-            }
+        mTimelineViewModel.mTimelineRecyclerData.observe(
+            viewLifecycleOwner,
+            Observer<List<TimelineModal>> { list ->
+                list?.let {
+                    mTimelineAdapter?.setData(it)
+                }
 
-        })
+            })
 
 
     }

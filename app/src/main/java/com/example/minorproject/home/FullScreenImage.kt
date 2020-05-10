@@ -36,8 +36,8 @@ class FullScreenImage : Fragment() {
 
         val SubCat_ID = arguments?.getString(SUBCAT_ID)
         val Cat_ID = arguments?.getString(CAT_ID)
-        Log.e("arg","value"+ SubCat_ID)
-        Log.e("arg1","value"+ Cat_ID)
+        Log.e("arg", "value" + SubCat_ID)
+        Log.e("arg1", "value" + Cat_ID)
 
 
         db.collection("CategoryImage").document(Cat_ID!!).collection("Image").document(SubCat_ID!!)
@@ -63,19 +63,19 @@ class FullScreenImage : Fragment() {
 
         val SubCat_ID = arguments?.getString(SUBCAT_ID)
         val Cat_ID = arguments?.getString(CAT_ID)
-        Log.e("arg","value"+ SubCat_ID)
-        Log.e("arg1","value"+ Cat_ID)
+        Log.e("arg", "value" + SubCat_ID)
+        Log.e("arg1", "value" + Cat_ID)
 
-        deletebtn.setOnClickListener{
+        deletebtn.setOnClickListener {
 
             db.collection("CategoryImage").document(Cat_ID!!)
                 .collection("Image").document(SubCat_ID!!).delete().addOnCompleteListener {
                     db.collection("Timeline").document(SubCat_ID).delete().addOnCompleteListener {
                         val bundle = Bundle()
-                        bundle.putString(ARG_ID,Cat_ID)
-                        Log.e("arg1","value"+ Cat_ID)
+                        bundle.putString(ARG_ID, Cat_ID)
+                        Log.e("arg1", "value" + Cat_ID)
 
-                        navController.navigate(R.id.action_fullScreenImage2_to_subCatImage,bundle)
+                        navController.navigate(R.id.action_fullScreenImage2_to_subCatImage, bundle)
 
                     }
                 }

@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:background="@color/black_60"
                 android:textSize="20sp"
                 android:text="@{timeline.date}"
                 android:id="@+id/timelinetext"/>

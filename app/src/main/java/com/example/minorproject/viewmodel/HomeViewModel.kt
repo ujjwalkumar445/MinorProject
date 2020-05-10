@@ -1,5 +1,6 @@
 package com.example.minorproject.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,5 +16,9 @@ class HomeViewModel : ViewModel() {
     fun Getdata(): LiveData<ArrayList<CatModel>> {
         mRecyclerData = homeRepo.GetFirebasedata()
         return mRecyclerData
+    }
+
+    fun onAddCatClicked(filepath: Uri?, imageTitle: String) {
+        homeRepo.uploadImage(filepath, imageTitle)
     }
 }

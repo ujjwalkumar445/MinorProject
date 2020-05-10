@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.minorproject.timeline.TimelineModal
 import com.example.minorproject.repo.timelineRepo
 
-class TimelineViewModel: ViewModel() {
+class TimelineViewModel : ViewModel() {
 
     var mTimelineRecyclerData: MutableLiveData<ArrayList<TimelineModal>> = MutableLiveData()
     var timelineRepo = timelineRepo()

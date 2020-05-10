@@ -84,8 +84,8 @@ class Home : Fragment(), View.OnClickListener, OnItemClick {
 
         homeViewModel.mRecyclerData.observe(viewLifecycleOwner, Observer<List<CatModel>> { list ->
             list?.let {
-//              catlist.value?.clear()
-               CategoryAdapter?.notifychange(it)
+
+                CategoryAdapter?.notifychange(it)
             }
 
         })

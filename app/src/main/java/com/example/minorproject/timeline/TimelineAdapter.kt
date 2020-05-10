@@ -8,7 +8,7 @@ import com.example.minorproject.R
 import com.example.minorproject.databinding.TimelineItemBinding
 import com.squareup.picasso.Picasso
 
-class TimelineAdapter():
+class TimelineAdapter() :
     RecyclerView.Adapter<TimelineAdapter.MyViewHolder>() {
 
     private var timelinelist: List<TimelineModal>? = null

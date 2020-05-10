@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import com.example.minorproject.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -18,27 +19,29 @@ class SignUpRepo {
     private lateinit var url: String
     private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    var onSignUpComplete = MutableLiveData<Boolean>(false)
 
 
     fun getSignUpDetail(
         username: String,
         email: String,
         password: String,
-        view: View,
         filepath: Uri?
-    ) {
+    ): MutableLiveData<Boolean> {
 
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.e(TAG, "createUserWithEmail:success")
                     uploadFile(filepath, username, email, password)
-                    loginScreen(view)
+                    onSignUpComplete.value = true
                 } else {
                     Log.e(TAG, "createUserWithEmail:failure", task.exception)
+                    onSignUpComplete.value = false
                 }
 
             }
+        return onSignUpComplete
     }
 
 
@@ -92,11 +95,6 @@ class SignUpRepo {
                 Log.i("data not added", "Error adding document")
             }
     }
-
-    private fun loginScreen(view: View) {
-        val intent = Intent(view.context, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        view.context.startActivity(intent)
-    }
+    
 }
 

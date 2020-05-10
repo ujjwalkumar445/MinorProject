@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:padding="2dp"
-        android:src="@drawable/addimage"/>
+        android:src="@drawable/imageadd"/>
     </androidx.cardview.widget.CardView>
 
     <Button

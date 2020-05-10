@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_sub_cat_image.*
 /**
  * A simple [Fragment] subclass.
  */
-class SubCatImage : Fragment(), View.OnClickListener,OnImageClick {
+class SubCatImage : Fragment(), View.OnClickListener, OnImageClick {
 
     private lateinit var navController: NavController
     private lateinit var database: FirebaseFirestore
@@ -81,7 +81,7 @@ class SubCatImage : Fragment(), View.OnClickListener,OnImageClick {
 
         database = FirebaseFirestore.getInstance()
 
-        imageAdapter = context?.let { ImageAdapter(it,this) }
+        imageAdapter = context?.let { ImageAdapter(it, this) }
 
 
         recyclerImage.layoutManager = GridLayoutManager(this.context, 3)
@@ -111,7 +111,7 @@ class SubCatImage : Fragment(), View.OnClickListener,OnImageClick {
         val bundle = Bundle()
 
         bundle.putString(SUBCAT_ID, subCatModal.sub_cat_id.toString())
-        bundle.putString(CAT_ID,subCatModal.cat_id.toString())
+        bundle.putString(CAT_ID, subCatModal.cat_id.toString())
 
         navController.navigate(R.id.action_subCatImage_to_fullScreenImage2, bundle)
     }

@@ -66,27 +66,44 @@ class LoginScreen : Fragment(), View.OnClickListener {
                 R.id.action_loginScreen_to_signUpScreen
             )
 
-            R.id.login_button -> view?.let { onLoginClicked(it) }
+            R.id.login_button -> mLoginViewModel.onLoginClicked(
+                emailEditTextView.text.toString(),
+                passwordEditTextView.text.toString()
+            ).observe(viewLifecycleOwner, Observer {
+                if (it == true) {
+                    newScreen()
+
+                }
+            })
+
 
         }
 
     }
 
+
     private fun setObservers() {
 
         mLoginViewModel.getErrMessage().observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            // Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            emailEditTextView.setError(it)
+            passwordEditTextView.setError(it)
         })
 
+
     }
+    
 
-    private fun onLoginClicked(view: View) {
-        mLoginViewModel.onLoginClicked(
-            emailEditTextView.text.toString(),
-            passwordEditTextView.text.toString(),
-            view
+    private fun newScreen() {
+        val intent = Intent(
+            this.context,
+            HomePage::class.java
         )
-
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        activity?.finish()
     }
 
 }

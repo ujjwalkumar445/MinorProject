@@ -12,16 +12,16 @@ import com.example.minorproject.databinding.ImageListBinding
 import com.example.minorproject.home.CatImageModel
 import com.squareup.picasso.Picasso
 
-class ImageAdapter(private var context : Context,private val onImageClick: OnImageClick) :
+class ImageAdapter(private var context: Context, private val onImageClick: OnImageClick) :
     RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
 
-    lateinit var SingleImage: ImageView
     private var catImagelist: List<CatImageModel>? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding : ImageListBinding = DataBindingUtil.inflate(inflater,R.layout.image_list,parent,false)
+        val binding: ImageListBinding =
+            DataBindingUtil.inflate(inflater, R.layout.image_list, parent, false)
         return MyViewHolder(binding)
     }
 
@@ -30,13 +30,13 @@ class ImageAdapter(private var context : Context,private val onImageClick: OnIma
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.subCat = catImagelist?.get(position)
+        holder.binding.mSubCat = catImagelist?.get(position)
         holder.binding.executePendingBindings()
 
-        var md : CatImageModel? = catImagelist?.get(position)
+        val md: CatImageModel? = catImagelist?.get(position)
 
         Picasso.get().load(md?.imageUrl).into(holder.binding.SingleImage)
-        holder.binding.ImageCardView.setOnClickListener{
+        holder.binding.ImageCardView.setOnClickListener {
             catImagelist?.get(position)?.let { it1 -> onImageClick.OnImgclick(it1) }
         }
 
@@ -48,7 +48,7 @@ class ImageAdapter(private var context : Context,private val onImageClick: OnIma
 
     }
 
-     class MyViewHolder(var binding : ImageListBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(var binding: ImageListBinding) : RecyclerView.ViewHolder(binding.root) {
 
 
     }

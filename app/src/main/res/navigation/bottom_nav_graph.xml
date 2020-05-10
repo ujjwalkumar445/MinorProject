@@ -12,10 +12,14 @@
         tools:layout="@layout/fragment_home2">
         <action
             android:id="@+id/action_home2_to_timeline2"
-            app:destination="@id/timeline2" />
+            app:destination="@id/timeline2"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/home2"/>
         <action
             android:id="@+id/action_home2_to_userProfile"
-            app:destination="@id/userProfile" />
+            app:destination="@id/userProfile"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/home2"/>
         <action
             android:id="@+id/action_home2_to_adddetail"
             app:destination="@id/adddetail" />
@@ -33,10 +37,14 @@
         tools:layout="@layout/fragment_user_profile">
         <action
             android:id="@+id/action_userProfile_to_home2"
-            app:destination="@id/home2" />
+            app:destination="@id/home2"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/home2"/>
         <action
             android:id="@+id/action_userProfile_to_timeline2"
-            app:destination="@id/timeline2" />
+            app:destination="@id/timeline2"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/home2"/>
     </fragment>
     <fragment
         android:id="@+id/timeline2"
@@ -45,10 +53,14 @@
         tools:layout="@layout/fragment_timeline">
         <action
             android:id="@+id/action_timeline2_to_userProfile"
-            app:destination="@id/userProfile" />
+            app:destination="@id/userProfile"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/home2"/>
         <action
             android:id="@+id/action_timeline2_to_home2"
-            app:destination="@id/home2" />
+            app:destination="@id/home2"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/home2"/>
     </fragment>
     <fragment
         android:id="@+id/subCatImage"

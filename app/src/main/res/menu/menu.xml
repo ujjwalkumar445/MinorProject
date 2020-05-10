@@ -9,8 +9,8 @@
         android:icon="@drawable/timeline"
         android:title="Timeline"
         app:cnb_backgroundColor="@color/colorAccent"
-        app:cnb_iconColor="@color/black"
-        app:cnb_textColor="@color/black" />
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white" />
 
     <item
         android:id="@+id/home"
@@ -18,8 +18,8 @@
         android:icon="@drawable/home"
         android:title="Home"
         app:cnb_backgroundColor="@color/colorAccent"
-        app:cnb_iconColor="@color/black"
-        app:cnb_textColor="@color/black" />
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white" />
 
     <item
         android:id="@+id/profile"
@@ -27,8 +27,8 @@
         android:icon="@drawable/person"
         android:title="Profile"
         app:cnb_backgroundColor="@color/colorAccent"
-        app:cnb_iconColor="@color/black"
+        app:cnb_iconColor="@color/white"
         app:cnb_iconTintMode="src_in"
-        app:cnb_textColor="@color/black" />
+        app:cnb_textColor="@color/white" />
 
 </menu>

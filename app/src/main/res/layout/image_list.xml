@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="SubCat"
+            name="mSubCat"
             type="com.example.minorproject.home.CatImageModel" />
     </data>
 
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
-                    android:src="@{SubCat.imageUrl}"/>
+                    android:src="@{mSubCat.imageUrl}"/>
 
 
             </RelativeLayout>

@@ -10,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.example.minorproject.MainActivity
 import com.example.minorproject.R
 import com.example.minorproject.viewmodel.signUpViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -59,8 +61,18 @@ class SignUpScreen : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.registerButton -> { view?.let { onSignUpClicked(it) }
-            }
+            R.id.registerButton -> mSignupViewModel.onSignUpClicked(
+                name.text.toString(),
+                email.text.toString(),
+                password.text.toString(),
+                filePath
+            ).observe(viewLifecycleOwner, Observer {
+                if (it == true) {
+                    loginScreen()
+
+                }
+            })
+
             R.id.profile_image -> showFileChooser()
         }
 
@@ -70,7 +82,9 @@ class SignUpScreen : Fragment(), View.OnClickListener {
     private fun setSignUpObservers() {
 
         mSignupViewModel.getSignUpErrMessage().observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
+            name.setError(it)
+            email.setError(it)
+            password.setError(it)
         })
 
     }
@@ -91,9 +105,14 @@ class SignUpScreen : Fragment(), View.OnClickListener {
         startActivityForResult(Intent.createChooser(intent, "SELECT PICTURE"), PICK_IMAGE_REQUEST)
     }
 
-    private fun onSignUpClicked(view: View){
-        mSignupViewModel.onSignUpClicked(name.text.toString(),email.text.toString(),password.text.toString(),view,filePath)
-
+    private fun loginScreen() {
+        val intent = Intent(
+            this.context,
+            MainActivity::class.java
+        )
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
     }
+
 
 }

@@ -8,9 +8,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 
-class timelineRepo { var db = FirebaseFirestore.getInstance()
+class timelineRepo {
+    var db = FirebaseFirestore.getInstance()
 
-    var timelineMutableData : MutableLiveData<ArrayList<TimelineModal>> = MutableLiveData()
+    var timelineMutableData: MutableLiveData<ArrayList<TimelineModal>> = MutableLiveData()
 
     fun getTimelineData(): MutableLiveData<ArrayList<TimelineModal>> {
 

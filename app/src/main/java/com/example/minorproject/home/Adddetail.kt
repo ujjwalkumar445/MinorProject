@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,13 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
 import com.example.minorproject.R
+import com.example.minorproject.viewmodel.HomeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -33,31 +33,14 @@ import java.util.*
  */
 class Adddetail : Fragment(), View.OnClickListener {
 
-    lateinit var mAuth: FirebaseAuth
     var navController: NavController? = null
-    lateinit var database: FirebaseFirestore
-    lateinit var storage: FirebaseStorage
     private var filepath: Uri? = null
     private var url: String? = null
-    lateinit var mcollection: CollectionReference
-    private lateinit var mStorageReference: StorageReference
-    private val PICK_CAMERA_REQUEST = 1234
     private val PICK_IMAGE_REQUEST = 5678
-    lateinit var ImageTitle: String
-    lateinit var userId: String
     lateinit var rootView: View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        mAuth = FirebaseAuth.getInstance()
-        database = FirebaseFirestore.getInstance()
-        mcollection = database.collection("Category")
-        storage = FirebaseStorage.getInstance()
-        mStorageReference = storage.reference
-        userId = mAuth.currentUser!!.uid
-
-
+    private val mAddCatViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -131,49 +114,21 @@ class Adddetail : Fragment(), View.OnClickListener {
         when (v!!.id) {
             R.id.image -> selectImage()
             R.id.savebtn -> {
-                UploadImage()
-                ImageTitle = titleText.text.toString()
+                //UploadImage()
+                onAddCatClicked()
+                // ImageTitle = titleText.text.toString()
                 navController!!.navigate(R.id.action_adddetail_to_home2)
 
             }
         }
     }
+    
 
-    private fun UploadImage() {
-        if (filepath != null) {
-            val pathRef = mStorageReference.child("CImages/" + UUID.randomUUID().toString())
-            pathRef.putFile(filepath!!)
-                .addOnSuccessListener {
-                    Log.i("on success", "uploaded")
-                    dwnldUrl(pathRef)
+    private fun onAddCatClicked() {
+        mAddCatViewModel.onAddCatClicked(
+            filepath, titleText.text.toString()
+        )
 
-                }
-                .addOnFailureListener {
-                    Log.i("on failure", "not uploaded")
-
-                }
-
-        }
-    }
-
-    private fun dwnldUrl(pathRef: StorageReference) {
-        pathRef.downloadUrl
-            .addOnSuccessListener {
-                url = it.toString()
-                UploadData()
-            }
-    }
-
-    private fun UploadData() {
-        val image = hashMapOf("ImageUrl" to url, "ImageTitle" to ImageTitle, "User Id" to userId)
-        database.collection("Category")
-            .document().set(image as Map<*, *>)
-            .addOnCompleteListener {
-                Log.i("data added", "DocumentSnapshot added with ID")
-            }
-            .addOnFailureListener {
-                Log.i("data not added", "Error adding document")
-            }
     }
 
 }

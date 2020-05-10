@@ -4,14 +4,16 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import com.example.minorproject.HomePage
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginRepo {
 
     var mAuth = FirebaseAuth.getInstance()
+    var onComplete = MutableLiveData<Boolean>(false)
 
-    fun getLoginDetail(email: String, password: String, view: View) {
+    fun getLoginDetail(email: String, password: String): MutableLiveData<Boolean> {
 
         mAuth.signInWithEmailAndPassword(
             email, password
@@ -19,17 +21,14 @@ class LoginRepo {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.e(TAG, "SignInWithEmail : Success")
-                    newScreen(view)
+                    onComplete.value = true
                 } else {
                     Log.e(TAG, "UserWithEmail:failure", task.exception)
+                    onComplete.value = false
                 }
             }
-
+        return onComplete
     }
 
-    private fun newScreen(view: View) {
-        val intent = Intent(view.context, HomePage::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        view.context.startActivity(intent)
-    }
+
 }

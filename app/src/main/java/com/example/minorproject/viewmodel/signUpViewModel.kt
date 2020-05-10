@@ -13,6 +13,7 @@ class signUpViewModel : ViewModel() {
 
     private var errMessage = MutableLiveData<String>()
     var mSignUpRepo = SignUpRepo()
+    var onSignUpComplete = MutableLiveData<Boolean>()
 
     fun getSignUpErrMessage(): LiveData<String> {
         return errMessage
@@ -22,9 +23,8 @@ class signUpViewModel : ViewModel() {
         username: String,
         email: String,
         password: String,
-        view: View,
         filePath: Uri?
-    ) {
+    ): MutableLiveData<Boolean> {
 
         if (TextUtils.isEmpty(username)) {
             errMessage.value = "UserName should not be empty"
@@ -38,13 +38,14 @@ class signUpViewModel : ViewModel() {
             errMessage.value = "Must Have 1 Special Character, 1 Uppercase, 1 Lowercase, 1 Number"
         } else if (password.length <= 10) {
             errMessage.value = "Must have at least 10 digit password"
-            return
+
         } else {
 
-            mSignUpRepo.getSignUpDetail(username, email, password, view, filePath)
+            onSignUpComplete = mSignUpRepo.getSignUpDetail(username, email, password, filePath)
 
 
         }
+        return onSignUpComplete
 
     }
 

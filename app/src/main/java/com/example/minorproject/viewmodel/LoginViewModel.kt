@@ -12,12 +12,13 @@ class LoginViewModel : ViewModel() {
 
     private var errMessage = MutableLiveData<String>()
     var loginRepo = LoginRepo()
+    var msg = MutableLiveData<Boolean>()
 
     fun getErrMessage(): LiveData<String> {
         return errMessage
     }
 
-    fun onLoginClicked(email: String, password: String, view: View) {
+    fun onLoginClicked(email: String, password: String): MutableLiveData<Boolean> {
         if (TextUtils.isEmpty(email)) {
             errMessage.value = "Please Enter the Email first"
 
@@ -33,9 +34,9 @@ class LoginViewModel : ViewModel() {
             errMessage.value = "Must have at least 10 Characters"
 
         } else {
-            loginRepo.getLoginDetail(email, password, view)
-
+            msg = loginRepo.getLoginDetail(email, password)
 
         }
+        return msg
     }
 }

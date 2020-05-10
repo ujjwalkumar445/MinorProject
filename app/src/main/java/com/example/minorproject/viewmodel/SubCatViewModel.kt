@@ -1,5 +1,8 @@
 package com.example.minorproject.viewmodel
 
+import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,5 +18,12 @@ class SubCatViewModel : ViewModel() {
     fun Getdata(args: String): LiveData<ArrayList<CatImageModel>> {
         mSubRecyclerData = subCatRepo.Getdata(args)
         return mSubRecyclerData
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onAddImageClicked(filepath: Uri?, mSubCatId: String?) {
+        subCatRepo.uploadCatImage(filepath, mSubCatId)
+
     }
 }
