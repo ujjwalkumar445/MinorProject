@@ -17,13 +17,13 @@ Kotlin
 
 5:- Gradle Version
 
-6:- Repository PatternminSdkVersion 23
+6:- Repository Pattern
 
 7:- Utilize viewmodel
 
 8:- Utilize Observer
 
-# SDK Specification
+# Version Specification
 minSdkVersion 23
 
 targetSdkVersion 29
@@ -31,6 +31,12 @@ targetSdkVersion 29
 compileSdkVersion 29
 
 buildToolsVersion "29.0.3"
+
+kotlin_version = '1.3.71'
+
+Gradle version = 3.6.3
+
+firebase version = 16.0.5
 
 
 # ScreenShots :
