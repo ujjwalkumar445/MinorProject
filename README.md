@@ -6,6 +6,10 @@ Android application to store the images on the Firebase and get the images from 
 
 Kotlin
 
+# Android Component
+Navigation Component
+picasso
+
 # ScreenShots :
 
 ![](https://user-images.githubusercontent.com/60695071/81503884-b808f080-9303-11ea-889d-a016e5465256.jpeg)
