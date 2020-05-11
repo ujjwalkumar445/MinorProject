@@ -7,8 +7,31 @@ Android application to store the images on the Firebase and get the images from 
 Kotlin
 
 # Android Component
-Navigation Component
-picasso
+1:- Navigation Component
+
+2:- Picasso
+
+3:- Live Data
+
+4:- Firebase Version
+
+5:- Gradle Version
+
+6:- Repository PatternminSdkVersion 23
+
+7:- Utilize viewmodel
+
+8:- Utilize Observer
+
+# SDK Specification
+minSdkVersion 23
+
+targetSdkVersion 29
+
+compileSdkVersion 29
+
+buildToolsVersion "29.0.3"
+
 
 # ScreenShots :
 
